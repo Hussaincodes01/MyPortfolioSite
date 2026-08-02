@@ -2,19 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adam Roberts - Design & Engineering</title>
+    <meta name="theme-color" content="#04070a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Jiyad Hussain — AI/ML Engineer · Computer Vision & NLP</title>
+    <meta
+      name="description"
+      content="AI/ML engineer working on computer vision and NLP. Tri-modal PCB defect detection, byte-level Akkadian translation, and extremism text classification. Based in New Delhi."
+    />
+    <link rel="canonical" href="https://jiyadhussain.vercel.app/" />
 
-    <!-- Online Web Fonts: basis33 -->
-    <link href="https://db.onlinewebfonts.com/c/d08bafd725a4cfc309efb5a88e0b63a5?family=basis33" rel="stylesheet">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jiyad Hussain — AI/ML Engineer" />
+    <meta
+      property="og:description"
+      content="Vision and language models that survive the real world. Computer vision, NLP, and model deployment."
+    />
+    <meta property="og:image" content="/hero-poster.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/hero-poster.jpg" />
+
+    <!-- Fonts: Didone display, tight sans body, technical mono for data -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- First paint is the poster, not a 4.7 MB sprite sheet -->
+    <link rel="preload" as="image" href="/hero-poster.webp" type="image/webp" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Jiyad Hussain",
+        "jobTitle": "AI/ML Engineer",
+        "email": "hussainbased@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "New Delhi",
+          "addressCountry": "IN"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Amity University, Noida"
+        },
+        "knowsAbout": [
+          "Computer Vision",
+          "Natural Language Processing",
+          "PyTorch",
+          "Deep Learning",
+          "Model Deployment"
+        ],
+        "sameAs": [
+          "https://github.com/Hussaincodes01",
+          "https://www.linkedin.com/in/jiyad-hussain-50379134b/"
+        ]
+      }
+    </script>
   </head>
-  <body class="bg-black text-white antialiased">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

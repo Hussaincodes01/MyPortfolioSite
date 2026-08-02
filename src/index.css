@@ -2,31 +2,269 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Palette sampled directly from the hero footage:
+  cold near-black background, cyan circuit glow, warm skin highlight.
+*/
+:root {
+  --void: #04070a;
+  --ink: #070c11;
+  --trace: #4fe0d6;
+  --trace-dim: #2a8f89;
+  --ember: #e9a45b;
+  --bone: #e4edef;
+  --slate: #7b8c94;
+  --hair: rgba(228, 237, 239, 0.1);
+  --hair-strong: rgba(228, 237, 239, 0.22);
+  --plate: rgba(7, 12, 17, 0.58);
+}
+
 @layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--void);
+    scrollbar-gutter: stable;
+  }
+
   body {
-    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background: var(--void);
+    color: var(--bone);
+    font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+    font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #000000;
-    color: #ffffff;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--trace);
+    color: var(--void);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--trace);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-.font-pixel {
-  font-family: 'basis33', monospace;
+/* ---------- Type roles ---------- */
+
+/* Didone display — journal-cover gravitas against the sci-fi footage.
+   Used only for the largest statements. */
+.font-display {
+  font-family: 'Bodoni Moda', ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
 }
 
-/* Custom scrollbar styling for modals/overlays if scrollable */
+/* Technical mono — every label, eyebrow, metric and datum. */
+.font-data {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  font-feature-settings: 'zero' 1;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--trace);
+}
+
+.eyebrow-muted {
+  color: var(--slate);
+}
+
+/* ---------- Signature: the metric plate ----------
+   Hairline-divided monospace readout carrying the real numbers from the
+   resume; repeats in the hero and once per research entry. */
+.plate {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--hair-strong);
+  border-bottom: 1px solid var(--hair);
+}
+
+.plate-cell {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 5.25rem;
+  padding: 0.75rem 0.75rem 0.75rem 0;
+}
+
+.plate-cell + .plate-cell {
+  padding-left: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .plate-cell {
+    min-width: 6.5rem;
+    padding: 0.875rem 1rem 0.875rem 0;
+  }
+  .plate-cell + .plate-cell {
+    padding-left: 1.25rem;
+  }
+}
+
+.plate-cell + .plate-cell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 1px;
+  background: var(--hair-strong);
+}
+
+.plate-value {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: clamp(1.125rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.plate-label {
+  margin-top: 0.4rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+/* ---------- Glass surfaces over the video ---------- */
+.surface {
+  background: var(--plate);
+  border: 1px solid var(--hair);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+}
+
+/* ---------- Circuit trace: scroll progress on the left rail ----------
+   Echoes the glowing lines on the face. Doubles as a scroll indicator. */
+.rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--hair);
+  z-index: 30;
+  pointer-events: none;
+}
+
+.rail-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--trace-dim) 30%,
+    var(--trace)
+  );
+  transform-origin: top;
+  box-shadow: 0 0 8px 0 var(--trace-dim);
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Link underline that grows from the left ---------- */
+.link {
+  position: relative;
+  color: var(--bone);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: var(--trace);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link:hover {
+  color: var(--trace);
+}
+
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--void);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  background: rgba(228, 237, 239, 0.16);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--trace-dim);
+}
+
+/* ---------- Accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Tap targets ----------
+   Inline footer/contact links are visually small; pad the hit area on touch
+   devices so they clear the 44px guidance without changing the type size. */
+@media (pointer: coarse) {
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .tap-nav {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
 }
